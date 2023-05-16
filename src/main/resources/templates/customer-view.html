@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>View Customer</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div th:include="navbar :: navbar"></div>
+        <div class="container">
+            <h1>Customer Details</h1>
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <th>Account Number</th>
+                        <td th:text="${customer.accountNumber}"></td>
+                    </tr>
+                    <tr>
+                        <th>Names</th>
+                        <td th:text="${customer.names}"></td>
+                    </tr>
+                    <tr>
+                        <th>Is PEP</th>
+                        <td th:text="${customer.isPEP}"></td>
+                    </tr>
+                    <tr>
+                        <th>Is Rwandan</th>
+                        <td th:text="${customer.isRwandan}"></td>
+                    </tr>
+                    <tr>
+                        <th>Is Resident</th>
+                        <td th:text="${customer.isResident}"></td>
+                    </tr>
+                    <tr>
+                        <th>Account Opened Method</th>
+                        <td th:text="${customer.accountOpenedMethod}"></td>
+                    </tr>
+                    <tr>
+                        <th>Nature of Business</th>
+                        <td th:text="${customer.natureBusiness}"></td>
+                    </tr>
+                    <tr>
+                        <th>Purpose of Account</th>
+                        <td th:text="${customer.purposeAccount}"></td>
+                    </tr>
+                    <tr>
+                        <th>Transaction Nature</th>
+                        <td th:text="${customer.transactionNature}"></td>
+                    </tr>
+                    <tr>
+                        <th>Status</th>
+                        <td th:text="${customer.status}"></td>
+                    </tr>
+                    <tr>
+                        <th>Mobile Number</th>
+                        <td th:text="${customer.mobileNumber}"></td>
+                    </tr>
+                    <tr>
+                        <th>Risk Score</th>
+                        <td>
+                            <span th:text="${customer.scoreInWords}" th:class="${customer.scoreInWords == 'High Risk' ? 'text-danger' : (customer.scoreInWords == 'Medium Risk' ? 'text-warning' : 'text-primary')}"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Created Date</th>
+                        <td th:text="${customer.createdDate}"></td>
+                    </tr>
+               
+                <table>
+                    <tr>
+                        <th>Supporting Documents</th>
+                        <th>Actions</th>
+                    </tr>
+                    <tr th:each="document : ${customer.supportingDocuments}">
+                        <td><span th:text="${document.documentName}"></span></td>
+                        <td>
+                            <!-- Download supporting document -->
+                            <a th:href="@{/customer/download/{documentId}(documentId=${document.id})}">Download</a>
+
+                        </td>
+                    </tr>
+                </table>
+
+                <tr>
+                    <th>Initiated By</th>
+                    <td th:text="${customer.initiatedBy.name}"></td>
+                </tr>
+
+
+                <tr th:if="${customer.approvedBy.id == user.id && customer.status==T(com.assessment.bank.entities.CustomerStatus).AwaitingForApproval}">
+                    <th>Approval/Rejection</th>
+                    <td>
+                        <form th:action="@{/customer/{customerId}/approve(customerId=${customer.ID})}" method="post">
+                            <input type="hidden" name="customerId" th:value="${customer.ID}" />
+                            <div>
+                                <label for="comments">Comments:</label>
+                                <textarea id="comments" name="comments" required></textarea>
+                            </div>
+                            <div>
+                                <button type="submit" name="approval" value="approve">Approve</button>
+                                <button type="submit" name="approval" value="reject">Reject</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+                <div th:if="${customer.status == T(com.assessment.bank.entities.CustomerStatus).Approved}">
+
+                    <tr>
+                        <th>Approved By</th>
+                        <td th:text="${customer.approvedBy.names}"></td>
+                    </tr>
+
+                    <tr>
+                        <th>Comments</th>
+                        <td th:text="${customer.comments}"></td>
+                    </tr>
+                </div>
+
+                <div th:if="${customer.status == T(com.assessment.bank.entities.CustomerStatus).Rejected}">
+
+                    <tr>
+                        <th>Rejected By</th>
+                        <td th:text="${customer.approvedBy.names}"></td>
+                    </tr>
+
+                    <tr>
+                        <th>Comments</th>
+                        <td th:text="${customer.comments}"></td>
+                    </tr>
+                </div>
+        </div>
+    </tbody>
+</table>
+</div>
+</body>
+</html>

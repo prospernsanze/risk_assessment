@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add User</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    
+    <div class="container mt-4">
+        <h1>Add User</h1>
+        <div th:if="${error}" class="alert alert-danger" role="alert">
+            <span th:text="${error}"></span>
+        </div>
+        <form th:action="@{/users/add}" method="post">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+                <div th:if="${nameError}" class="alert alert-danger" role="alert">
+                    <span th:text="${nameError}"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+                <div th:if="${emailError}" class="alert alert-danger" role="alert">
+                    <span th:text="${emailError}"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+                <div th:if="${passwordError}" class="alert alert-danger" role="alert">
+                    <span th:text="${passwordError}"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="roles">Roles</label>
+                <input type="text" class="form-control" id="roles" name="roles" required>
+                <div th:if="${rolesError}" class="alert alert-danger" role="alert">
+                    <span th:text="${rolesError}"></span>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Add User</button>
+        </form>
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

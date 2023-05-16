@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Create Customer</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    </head>
+    <body>
+       
+        <div class="container">
+            <h1>Create Customer</h1>
+            
+             <div th:if="${param.error}">
+        <p>Validation errors occurred:</p>
+        <ul>
+            <li th:each="error : ${#fields.errors('*')}" th:text="${error.defaultMessage}"></li>
+        </ul>
+    </div>
+
+            <form th:action="@{/customer/new}" th:object="${customer}" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="accountNumber">Account Number:</label>
+                    <input type="text" id="accountNumber" th:field="*{accountNumber}" class="form-control" required/>
+                </div>
+
+                <div class="form-group">
+                    <label for="names">Customer Names:</label>
+                    <input type="text" id="names" th:field="*{names}" class="form-control" required/>
+                </div>
+                
+                 <div class="form-group">
+                    <label for="mobileNumber">Phone number:</label>
+                    <input type="text" id="mobileNumber" th:field="*{mobileNumber}" class="form-control" required/>
+                </div>
+                <!-- Other customer fields -->
+                <div class="form-group">
+                    <label for="isPEP">Political Exposed Person(PEP):</label>
+                    <select id="isPEP" th:field="*{isPEP}" class="form-control" required>
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="isRwandan">Nationality:</label>
+                    <select id="isRwandan" th:field="*{isRwandan}" class="form-control" required>
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="isResident">Resident:</label>
+                    <select id="isResident" th:field="*{isResident}" class="form-control" required>
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="natureBusiness">Nature of Business:</label>
+                    <select id="natureBusiness" th:field="*{natureBusiness}" class="form-control" required>
+                        <option th:each="nature : ${T(com.assessment.bank.entities.NatureBusiness).values()}"
+                                th:value="${nature}" th:text="${nature}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="purposeAccount">Purpose of Account:</label>
+                    <select id="purposeAccount" th:field="*{purposeAccount}" class="form-control" required>
+                        <option th:each="account : ${T(com.assessment.bank.entities.PurposeAccount).values()}"
+                                th:value="${account}" th:text="${account}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="transactionNature">Transaction Nature:</label>
+                    <select id="transactionNature" th:field="*{transactionNature}" class="form-control" required>
+                        <option th:each="nature : ${T(com.assessment.bank.entities.TransactionNature).values()}"
+                                th:value="${nature}" th:text="${nature}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="accountOpenedMethod">account Opened Method:</label>
+                    <select id="accountOpenedMethod" th:field="*{accountOpenedMethod}" class="form-control" required>
+                        <option th:each="account : ${T(com.assessment.bank.entities.AccountOpenedMethod).values()}"
+                                th:value="${account}" th:text="${account}"></option>
+                    </select>
+                </div>
+
+
+                <!-- Add more fields based on your requirements -->
+
+                <div class="form-group">
+                    <label for="files">Supporting Documents:</label>
+                    <input type="file" id="files" name="files" class="form-control-file" multiple/>
+                </div>
+                <div class="form-group">
+                    <label for="approvedBy">Approval:</label>
+                    <select id="approvedBy" th:field="*{approvedBy.id}" class="form-control" required>
+                        <option th:each="user : ${approvalUsers}" th:value="${user.id}" th:text="${user.name}"></option>
+                    </select>
+                </div>
+
+
+                <button type="submit" class="btn btn-primary">Save Customer</button>
+            </form>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+    </body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <meta charset="UTF-8">
+        <title>Initiated Customers</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    </head>
+    <body>
+        
+        <div class="container">
+            <h1>Initiated Cases</h1>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Account Number</th>
+                        <th>Name</th>
+                        <th>Initiated By</th>
+                        <th>Status</th>
+                        <th>Approval Queue</th>
+
+                        <th>Risk Score Category</th>
+                        <th>Actions </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="customer : ${customers}">
+                        <td th:text="${customer.accountNumber}"></td>
+                        <td th:text="${customer.names}"></td>
+                        <td th:text="${customer.initiatedBy.name}"></td>
+                        <td th:text="${customer.status}"></td>
+                        <td th:text="${customer.approvedBy.name}"></td>
+
+
+                        <td>
+                            <span th:text="${customer.scoreInWords}" th:class="${customer.scoreInWords == 'High Risk' ? 'text-danger' : (customer.scoreInWords == 'Medium Risk' ? 'text-warning' : 'text-primary')}"></span>
+                        </td>
+                        <td>
+                            <a th:href="@{/customer/{customerId}(customerId=${customer.ID})}" class="btn btn-primary">View Details</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
